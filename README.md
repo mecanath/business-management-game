@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Management Game</title>
+    <title>Advanced Business Management Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
             background-color: #f4f4f4;
         }
         #game-container {
-            max-width: 600px;
+            max-width: 900px;
             margin: 50px auto;
             padding: 20px;
             background: white;
@@ -29,25 +29,40 @@
             display: flex;
             justify-content: space-between;
         }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            padding: 15px;
+            background: #007BFF;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         button {
             padding: 10px;
             margin: 10px 0;
             width: 100%;
             font-size: 16px;
-            background-color: #007BFF;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <h1>Business Management</h1>
+        <h1>Advanced Business Management</h1>
         <div class="stat">
             <span>Finances:</span>
             <span id="finances">10000</span>
@@ -64,7 +79,12 @@
             <span>Expenses:</span>
             <span id="expenses">1500</span>
         </div>
+        <div class="dashboard">
+            <div class="card">R&D: <span id="rnd">500</span></div>
+            <div class="card">Marketing: <span id="marketing">1000</span></div>
+        </div>
         <button id="invest">Invest in Marketing (Cost: 500)</button>
+        <button id="rnd-button">Invest in R&D (Cost: 1000)</button>
         <button id="hire">Hire Employee (Cost: 1000)</button>
         <button id="next-turn">Next Turn</button>
     </div>
@@ -75,7 +95,9 @@
             finances: 10000,
             employees: 2,
             revenue: 2000,
-            expenses: 1500
+            expenses: 1500,
+            rnd: 500,
+            marketing: 1000,
         };
 
         // Update UI with current state
@@ -84,17 +106,32 @@
             document.getElementById('employees').textContent = state.employees;
             document.getElementById('revenue').textContent = state.revenue;
             document.getElementById('expenses').textContent = state.expenses;
+            document.getElementById('rnd').textContent = state.rnd;
+            document.getElementById('marketing').textContent = state.marketing;
         }
 
         // Event listeners for buttons
         document.getElementById('invest').addEventListener('click', () => {
             if (state.finances >= 500) {
                 state.finances -= 500;
+                state.marketing += 200;
                 state.revenue += 300;
                 updateUI();
-                alert('Investment in marketing increased revenue!');
+                alert('Investment in marketing increased revenue and brand value!');
             } else {
-                alert('Not enough finances to invest.');
+                alert('Not enough finances to invest in marketing.');
+            }
+        });
+
+        document.getElementById('rnd-button').addEventListener('click', () => {
+            if (state.finances >= 1000) {
+                state.finances -= 1000;
+                state.rnd += 500;
+                state.revenue += 400;
+                updateUI();
+                alert('Investment in R&D increased innovation and revenue!');
+            } else {
+                alert('Not enough finances to invest in R&D.');
             }
         });
 
@@ -126,3 +163,4 @@
     </script>
 </body>
 </html>
+
