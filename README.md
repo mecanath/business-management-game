@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Business Management Game</title>
+    <title>Advanced Garage Management Simulator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
             background-color: #f4f4f4;
         }
         #game-container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 50px auto;
             padding: 20px;
             background: white;
@@ -58,6 +58,29 @@
         button:hover {
             background-color: #218838;
         }
+        #garage {
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .vehicle {
+            width: 100px;
+            height: 50px;
+            background: url('https://via.placeholder.com/100x50?text=Car') no-repeat center center;
+            background-size: cover;
+            border: 2px solid #007BFF;
+            border-radius: 4px;
+        }
+        .tool {
+            width: 50px;
+            height: 50px;
+            background: url('https://via.placeholder.com/50?text=Tool') no-repeat center center;
+            background-size: cover;
+            border: 2px solid #FF5733;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +119,11 @@
         <button id="buy-tool">Buy Tool (Cost: 2000)</button>
         <button id="hire-staff">Hire Staff (Cost: Variable)</button>
         <button id="next-turn">Next Turn</button>
+        
+        <div id="garage">
+            <div class="vehicle" title="Vehicle 1"></div>
+            <div class="vehicle" title="Vehicle 2"></div>
+        </div>
     </div>
 
     <script>
@@ -119,6 +147,19 @@
             document.getElementById('vehicles').textContent = state.vehicles;
             document.getElementById('marketing').textContent = state.marketing;
             document.getElementById('rnd').textContent = state.rnd;
+
+            const garage = document.getElementById('garage');
+            garage.innerHTML = '';
+            for (let i = 0; i < state.vehicles; i++) {
+                const vehicle = document.createElement('div');
+                vehicle.className = 'vehicle';
+                garage.appendChild(vehicle);
+            }
+            for (let i = 0; i < state.tools; i++) {
+                const tool = document.createElement('div');
+                tool.className = 'tool';
+                garage.appendChild(tool);
+            }
         }
 
         document.getElementById('invest-marketing').addEventListener('click', () => {
@@ -179,10 +220,4 @@
             } else {
                 alert('Turn ended. Finances updated.');
             }
-            updateUI();
-        });
-
-        updateUI();
-    </script>
-</body>
-</html>
+            update
