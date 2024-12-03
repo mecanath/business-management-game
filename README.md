@@ -62,103 +62,126 @@
 </head>
 <body>
     <div id="game-container">
-        <h1>Advanced Business Management</h1>
+        <h1>Garage Management Simulator</h1>
         <div class="stat">
             <span>Finances:</span>
-            <span id="finances">10000</span>
+            <span id="finances">20000</span>
         </div>
         <div class="stat">
             <span>Employees:</span>
-            <span id="employees">2</span>
+            <span id="employees">3</span>
         </div>
         <div class="stat">
             <span>Revenue:</span>
-            <span id="revenue">2000</span>
+            <span id="revenue">5000</span>
         </div>
         <div class="stat">
             <span>Expenses:</span>
-            <span id="expenses">1500</span>
+            <span id="expenses">2500</span>
+        </div>
+        <div class="stat">
+            <span>Tools Owned:</span>
+            <span id="tools">0</span>
+        </div>
+        <div class="stat">
+            <span>Vehicles Serviced:</span>
+            <span id="vehicles">0</span>
         </div>
         <div class="dashboard">
-            <div class="card">R&D: <span id="rnd">500</span></div>
             <div class="card">Marketing: <span id="marketing">1000</span></div>
+            <div class="card">R&D: <span id="rnd">500</span></div>
         </div>
-        <button id="invest">Invest in Marketing (Cost: 500)</button>
-        <button id="rnd-button">Invest in R&D (Cost: 1000)</button>
-        <button id="hire">Hire Employee (Cost: 1000)</button>
+        <button id="invest-marketing">Invest in Marketing (Cost: 500)</button>
+        <button id="invest-rnd">Invest in R&D (Cost: 1000)</button>
+        <button id="buy-tool">Buy Tool (Cost: 2000)</button>
+        <button id="hire-staff">Hire Staff (Cost: Variable)</button>
         <button id="next-turn">Next Turn</button>
     </div>
 
     <script>
-        // Initial game state
         const state = {
-            finances: 10000,
-            employees: 2,
-            revenue: 2000,
-            expenses: 1500,
-            rnd: 500,
+            finances: 20000,
+            employees: 3,
+            revenue: 5000,
+            expenses: 2500,
+            tools: 0,
+            vehicles: 0,
             marketing: 1000,
+            rnd: 500,
         };
 
-        // Update UI with current state
         function updateUI() {
             document.getElementById('finances').textContent = state.finances;
             document.getElementById('employees').textContent = state.employees;
             document.getElementById('revenue').textContent = state.revenue;
             document.getElementById('expenses').textContent = state.expenses;
-            document.getElementById('rnd').textContent = state.rnd;
+            document.getElementById('tools').textContent = state.tools;
+            document.getElementById('vehicles').textContent = state.vehicles;
             document.getElementById('marketing').textContent = state.marketing;
+            document.getElementById('rnd').textContent = state.rnd;
         }
 
-        // Event listeners for buttons
-        document.getElementById('invest').addEventListener('click', () => {
+        document.getElementById('invest-marketing').addEventListener('click', () => {
             if (state.finances >= 500) {
                 state.finances -= 500;
                 state.marketing += 200;
                 state.revenue += 300;
-                updateUI();
-                alert('Investment in marketing increased revenue and brand value!');
+                alert('Investment in marketing increased customer awareness!');
             } else {
                 alert('Not enough finances to invest in marketing.');
             }
+            updateUI();
         });
 
-        document.getElementById('rnd-button').addEventListener('click', () => {
+        document.getElementById('invest-rnd').addEventListener('click', () => {
             if (state.finances >= 1000) {
                 state.finances -= 1000;
                 state.rnd += 500;
                 state.revenue += 400;
-                updateUI();
-                alert('Investment in R&D increased innovation and revenue!');
+                alert('R&D investment improved operational efficiency!');
             } else {
                 alert('Not enough finances to invest in R&D.');
             }
+            updateUI();
         });
 
-        document.getElementById('hire').addEventListener('click', () => {
-            if (state.finances >= 1000) {
-                state.finances -= 1000;
-                state.employees += 1;
-                state.expenses += 500;
-                updateUI();
-                alert('You hired a new employee!');
+        document.getElementById('buy-tool').addEventListener('click', () => {
+            if (state.finances >= 2000) {
+                state.finances -= 2000;
+                state.tools += 1;
+                state.revenue += 500;
+                alert('New tool purchased, enhancing garage capability!');
             } else {
-                alert('Not enough finances to hire.');
+                alert('Not enough finances to buy tools.');
             }
+            updateUI();
+        });
+
+        document.getElementById('hire-staff').addEventListener('click', () => {
+            let salary = 1000 + Math.floor(Math.random() * 1000);
+            if (state.finances >= salary) {
+                state.finances -= salary;
+                state.employees += 1;
+                state.expenses += salary / 10;
+                alert(`Hired new staff with salary: $${salary}`);
+            } else {
+                alert('Not enough finances to hire staff.');
+            }
+            updateUI();
         });
 
         document.getElementById('next-turn').addEventListener('click', () => {
             state.finances += state.revenue - state.expenses;
+            state.vehicles += Math.floor(state.tools * 1.5);
             if (state.finances < 0) {
                 alert('You are bankrupt! Game Over.');
-                location.reload(); // Restart the game
+                location.reload();
             } else {
                 alert('Turn ended. Finances updated.');
-                updateUI();
             }
+            updateUI();
         });
 
-        // Initial render
         updateUI();
     </script>
 </body>
